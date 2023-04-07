@@ -7,10 +7,11 @@
   "scripts": {
     "start": "electron .",
     "dev:render": "next dev renderer -p 8888",
-    "dev:main": "pnpm build:main && pnpm start",
+    "dev:main": "pnpm build:preloads && pnpm build:main && pnpm start",
     "test": "pnpm build:render && pnpm build:main && TEST=true pnpm start",
     "build:render": "next build renderer && next export renderer",
-    "build:main": "rm -rf main/build && tsc --project main --outDir main/build",
+    "build:preloads": "rm -rf renderer/build/preloads && tsc --project renderer/tsconfig.preloads.json --outDir renderer/build/preloads",
+    "build:main": "rm -rf main/build && tsc --project main/tsconfig.json --outDir main/build",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {

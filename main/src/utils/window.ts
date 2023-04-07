@@ -2,10 +2,11 @@ import {
   screen,
   BrowserWindow,
   BrowserWindowConstructorOptions,
-  Display
-} from 'electron';
-import Store from 'electron-store';
-import env from './env';
+  Display,
+} from "electron";
+import path from "path";
+import Store from "electron-store";
+import env from "./env";
 
 interface WindowState {
   width: number;
@@ -16,9 +17,13 @@ interface WindowState {
 
 const windows = new Map<string, BrowserWindow>();
 
-export const create = (windowName: string, options: BrowserWindowConstructorOptions) => {
+export const create = (
+  windowName: string,
+  preload: boolean,
+  options: BrowserWindowConstructorOptions,
+) => {
   const key = "window-state";
-  const name = `${key}-${windowName}`
+  const name = `${key}-${windowName}`;
 
   const store = new Store({ name });
   const defaultSize: WindowState = {
@@ -40,14 +45,19 @@ export const create = (windowName: string, options: BrowserWindowConstructorOpti
   };
 
   // 윈도우의 위치가 화면 안에 표시되는지 확인.
-  const windowWithinBounds = (windowState: WindowState, bounds: Display['bounds']) => {
-    if (typeof windowState.x !== 'number') return false;
-    if (typeof windowState.y !== 'number') return false;
-    if (windowState.x < bounds.x) return false
-    if (windowState.y < bounds.y) return false
-    if (windowState.x + windowState.width > bounds.x + bounds.width) return false
-    if (windowState.y + windowState.height > bounds.y + bounds.height) return false
-    return true
+  const windowWithinBounds = (
+    windowState: WindowState,
+    bounds: Display["bounds"],
+  ) => {
+    if (typeof windowState.x !== "number") return false;
+    if (typeof windowState.y !== "number") return false;
+    if (windowState.x < bounds.x) return false;
+    if (windowState.y < bounds.y) return false;
+    if (windowState.x + windowState.width > bounds.x + bounds.width)
+      return false;
+    if (windowState.y + windowState.height > bounds.y + bounds.height)
+      return false;
+    return true;
   };
 
   // 윈도우의 기본 상태를 얻음.
@@ -63,9 +73,9 @@ export const create = (windowName: string, options: BrowserWindowConstructorOpti
   const ensureVisibleOnSomeDisplay = () => {
     const windowState = store.get(key, defaultSize) as WindowState;
 
-    const visible = screen.getAllDisplays().some(display => {
+    const visible = screen.getAllDisplays().some((display) => {
       const withinBounds = windowWithinBounds(windowState, display.bounds);
-      return withinBounds
+      return withinBounds;
     });
 
     if (!visible) return getDefaultState();
@@ -83,20 +93,28 @@ export const create = (windowName: string, options: BrowserWindowConstructorOpti
   // 윈도우의 크기와 위치를 설정.
   const state = ensureVisibleOnSomeDisplay();
 
+  const getPreloadPath = () => {
+    if (!preload) return;
+
+    const preloadPath = `../../../renderer/build/preloads/${windowName}.js`;
+    return path.join(__dirname, preloadPath);
+  };
+
   // 윈도우를 생성.
   const win = new BrowserWindow({
     ...state,
     ...options,
     webPreferences: {
       nodeIntegration: true,
+      preload: getPreloadPath(),
       ...options.webPreferences,
     },
   });
 
   // 윈도우를 닫으면 크기와 위치를 저장.
-  win.on('close', saveState);
+  win.on("close", saveState);
 
-  if (env.mode === 'development') {
+  if (env.mode === "development") {
     win.loadURL(`http://localhost:8888/${windowName}`);
     win.webContents.openDevTools();
   } else {
@@ -105,13 +123,13 @@ export const create = (windowName: string, options: BrowserWindowConstructorOpti
 
   windows.set(windowName, win);
   return win;
-}
+};
 
 export const get = (windowName: string) => {
   const win = windows.get(windowName) ?? null;
   return win;
-}
+};
 
 export default {
   create,
-}
+};

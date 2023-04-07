@@ -10,7 +10,7 @@ const bootstrap = async () => {
 
   await app.whenReady();
 
-  window.create("main", {
+  window.create("main", true, {
     width: 800,
     height: 600,
   });

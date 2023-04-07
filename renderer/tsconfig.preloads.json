@@ -13,5 +13,6 @@
       "@/*": ["./*"]
     }
   },
+  "include": ["src/preloads/*.ts"],
   "exclude": ["build/**/*"]
 }

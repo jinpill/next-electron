@@ -1,5 +1,12 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
+import type { Versions } from "@/types/window/Versions";
+
+declare global {
+  interface Window {
+    versions: Versions;
+  }
+}
 
 const App = ({ Component, pageProps }: AppProps) => (
   <>
