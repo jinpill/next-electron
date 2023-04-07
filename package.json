@@ -1,0 +1,31 @@
+{
+  "name": "next-electron",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main/build/index.js",
+  "packageManager": "pnpm@8.1.1",
+  "scripts": {
+    "start": "electron .",
+    "dev:render": "next dev renderer -p 8888",
+    "dev:main": "pnpm build:main && pnpm start",
+    "test": "pnpm build:render && pnpm build:main && TEST=true pnpm start",
+    "build:render": "next build renderer && next export renderer",
+    "build:main": "rm -rf main/build && tsc --project main --outDir main/build",
+    "ci": "pnpm install --frozen-lockfile"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11",
+    "electron": "^24.0.0",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.0.3"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  }
+}
