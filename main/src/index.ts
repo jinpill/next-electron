@@ -1,6 +1,6 @@
 import { app } from "electron";
-import env from "./utils/env";
-import window from "./utils/window";
+import env from "@/utils/env";
+import window from "@/utils/window";
 
 const bootstrap = async () => {
   app.on("window-all-closed", () => {
