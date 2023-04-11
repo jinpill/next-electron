@@ -17,7 +17,7 @@ interface WindowState {
 
 const windows = new Map<string, BrowserWindow>();
 
-export const create = (
+export const create = async (
   windowName: string,
   preload: boolean,
   options: BrowserWindowConstructorOptions,
@@ -114,13 +114,13 @@ export const create = (
   // 윈도우를 닫으면 크기와 위치를 저장.
   win.on("close", saveState);
 
-  if (env.mode === "development") {
-    win.loadURL(`http://localhost:8888/${windowName}`);
-    win.webContents.openDevTools();
-  } else {
-    win.loadFile(`./renderer/out/${windowName}.html`);
-  }
+  // 윈도우 화면을 렌더링.
+  const scheme = env.getScheme();
+  const windowURL = `${scheme}://app/${windowName}`;
+  win.loadURL(windowURL);
+  if (env.mode !== "production") win.webContents.openDevTools();
 
+  // 윈도우를 전역 변수에 저장.
   windows.set(windowName, win);
   return win;
 };

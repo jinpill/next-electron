@@ -10,11 +10,11 @@ const bootstrap = async () => {
 
   await app.whenReady();
 
-  window.create("main", true, {
+  await window.create("main", true, {
     width: 800,
     height: 600,
   });
 };
 
-env.initialize();
+env.initialize("myapp", 8888);
 bootstrap();

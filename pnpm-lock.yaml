@@ -4,6 +4,9 @@ dependencies:
   electron-store:
     specifier: ^8.1.0
     version: 8.1.0
+  next-electron-server:
+    specifier: ^1.0.0
+    version: 1.0.0
 
 devDependencies:
   '@types/node':
@@ -2140,6 +2143,10 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
+
+  /next-electron-server@1.0.0:
+    resolution: {integrity: sha512-fTUaHwT0Jry2fbdUSIkAiIqgDAInI5BJFF4/j90/okvZCYlyx6yxpXB30KpzmOG6TN/ESwyvsFJVvS2WHT8PAA==}
+    dev: false
 
   /next@13.2.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-g1I30317cThkEpvzfXujf0O4wtaQHtDCLhlivwlTJ885Ld+eOgcz7r3TGQzeU+cSRoNHtD8tsJgzxVdYojFssw==}
