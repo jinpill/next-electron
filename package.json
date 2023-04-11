@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "main/build/index.js",
-  "packageManager": "pnpm@8.1.1",
+  "packageManager": "pnpm@8.2.0",
   "scripts": {
     "start": "electron .",
     "dev:render": "next dev renderer -p 8888",
