@@ -8,7 +8,7 @@
 
 ```bash
 corepack enable
-corepack prepare pnpm@8.1.1 --activate
+corepack prepare pnpm@8.2.0 --activate
 pnpm run ci # pnpm ci ❌
 ```
 
