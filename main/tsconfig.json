@@ -3,15 +3,11 @@
     "target": "ESNext",
     "module": "CommonJS",
     "sourceMap": false,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "exclude": ["build/**/*"]
+  "exclude": ["build/**/*"],
+  "extends": "../tsconfig.json"
 }
