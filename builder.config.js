@@ -10,6 +10,9 @@ module.exports = {
     "renderer/out/**/*",
     "package.json",
   ],
+  win: {
+    target: "nsis",
+  },
   mac: {
     target: "dmg",
   },
