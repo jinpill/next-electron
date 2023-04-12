@@ -1,9 +1,19 @@
 {
   "name": "next-electron",
+  "description": "This project is a template for building desktop applications with Next.js and Electron. ⚡️",
+  "author": {
+    "name": "Jinpill Lee",
+    "email": "hello@jinpill.dev"
+  },
+  "homepage": "https://jinpill.github.io/",
   "version": "0.1.0",
   "private": true,
   "main": "main/build/index.js",
   "packageManager": "pnpm@8.2.0",
+  "build": {
+    "productName": "My App",
+    "appId": "my.electron.app"
+  },
   "scripts": {
     "start": "electron .",
     "dev:render": "next dev renderer -p 8888",

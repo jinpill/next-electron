@@ -12,7 +12,7 @@ const bootstrap = async () => {
   await events.register();
   await app.whenReady();
   await installExtension(REACT_DEVELOPER_TOOLS);
-  logger.log("My app is", "ready!");
+  logger.info("My app is", "ready!");
 
   await window.create("main", true, {
     width: 800,
