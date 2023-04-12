@@ -2,6 +2,7 @@
 
 const builder = require("electron-builder");
 const clc = require("cli-color");
+const path = require("path");
 const _config = require("../builder.config");
 
 const build = async () => {
@@ -46,4 +47,5 @@ build()
   })
   .finally(() => {
     console.timeEnd(clc.yellow("⏰ Build Time:"));
+    console.log(path.resolve(__dirname, "../dist"));
   });
