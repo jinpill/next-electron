@@ -10,16 +10,6 @@
   "private": true,
   "main": "main/build/index.js",
   "packageManager": "pnpm@8.2.0",
-  "build": {
-    "productName": "My App",
-    "appId": "my.electron.app",
-    "files": [
-      "main/build/**/*",
-      "renderer/build/**/*",
-      "renderer/out/**/*",
-      "package.json"
-    ]
-  },
   "scripts": {
     "start": "electron .",
     "dev:render": "next dev renderer -p 8888",
@@ -34,8 +24,9 @@
     "compile:main-clean": "rm -rf main/build",
     "compile:main-tsc": "tsc --project main/tsconfig.json --outDir main/build",
     "compile:main-alias": "tsc-alias --project main/tsconfig.json --outDir main/build",
-    "build": "pnpm build:clean && pnpm compile:render && pnpm compile:main && electron-builder",
+    "build": "pnpm build:clean && pnpm compile:render && pnpm compile:main && pnpm build:script",
     "build:clean": "rm -rf dist",
+    "build:script": "node scripts/build.js",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {
