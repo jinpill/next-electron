@@ -5,13 +5,33 @@ const clc = require("cli-color");
 const _config = require("../builder.config");
 
 const build = async () => {
-  const targets = builder.Platform.MAC.createTarget();
-  const config = typeof _config === "function" ? await _config() : _config;
+  const targets = getTargets();
+  const config = getConfig();
 
   return builder.build({
     targets,
     config,
   });
+};
+
+const getTargets = () => {
+  const { Platform } = builder;
+  const keys = Object.keys(Platform);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const platform = Platform[key].nodeName;
+
+    if (process.platform !== platform) continue;
+    return Platform[key].createTarget();
+  }
+
+  throw new Error(`Unknown platform: ${process.platform}`);
+};
+
+const getConfig = async () => {
+  if (typeof _config !== "function") return _config;
+  return await _config();
 };
 
 console.log(clc.blue("🚀 Build Started!"));
