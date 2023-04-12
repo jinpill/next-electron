@@ -28,7 +28,7 @@
     "compile:main-clean": "rm -rf main/build",
     "compile:main-tsc": "tsc --project main/tsconfig.json --outDir main/build",
     "compile:main-alias": "tsc-alias --project main/tsconfig.json --outDir main/build",
-    "build": "electron-builder --dir",
+    "build": "pnpm compile:render && pnpm compile:main && electron-builder",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {
