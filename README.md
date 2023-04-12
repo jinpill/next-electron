@@ -18,10 +18,10 @@ pnpm run ci # pnpm ci ❌
 
 ```bash
 # 1st Terminal
-pnpm run dev:render
+pnpm dev:render
 
 # 2nd Terminal
-pnpm run dev:main
+pnpm dev:main
 ```
 
 ### ⚗️ Testing
@@ -29,7 +29,7 @@ pnpm run dev:main
 **빌드 테스트**를 실행합니다.
 
 ```bash
-pnpm run test
+pnpm test
 ```
 
 ### 📦 Build
@@ -37,11 +37,7 @@ pnpm run test
 **일렉트론 앱**을 빌드합니다.
 
 ```bash
-# Windows
-pnpm pack:win
-
-# MacOS
-pnpm pack:mac
+pnpm build
 ```
 
 ---
