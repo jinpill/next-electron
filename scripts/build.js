@@ -7,7 +7,7 @@ const _config = require("../builder.config");
 
 const build = async () => {
   const targets = getTargets();
-  const config = getConfig();
+  const config = await getConfig();
 
   return builder.build({
     targets,

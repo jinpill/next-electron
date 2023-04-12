@@ -3,6 +3,7 @@
  */
 module.exports = {
   appId: "my.electron.app",
+  productName: "My App",
   files: [
     "main/build/**/*",
     "renderer/build/**/*",

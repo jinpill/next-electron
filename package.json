@@ -1,6 +1,5 @@
 {
   "name": "next-electron",
-  "productName": "My App",
   "description": "This project is a template for building desktop applications with Next.js and Electron. ⚡️",
   "author": {
     "name": "Jinpill Lee",
