@@ -4,6 +4,7 @@ import serve from "next-electron-server";
 const { env, platform } = process;
 let initialized = false;
 let scheme = "";
+let port = 8888;
 
 export type Mode = "production" | "test" | "development";
 export type OS = "mac" | "windows" | "unknown";
@@ -21,11 +22,13 @@ export const os: OS = (() => {
 })();
 
 export const getScheme = () => scheme;
+export const getPort = () => port;
 
-export const initialize = (_scheme: string, port: number) => {
+export const initialize = (_scheme: string, _port: number) => {
   if (initialized) return;
   initialized = true;
   scheme = _scheme;
+  port = _port;
 
   if (mode !== "production") {
     const userDataPath = `${app.getPath("userData")} (${mode})`;
@@ -33,7 +36,7 @@ export const initialize = (_scheme: string, port: number) => {
   }
 
   serve(`${_scheme}://app`, {
-    port,
+    port: _port,
     outputDir: "renderer/out",
     dev: mode === "development",
   });
@@ -44,4 +47,5 @@ export default {
   os,
   initialize,
   getScheme,
+  getPort,
 };

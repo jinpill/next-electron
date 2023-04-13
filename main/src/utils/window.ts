@@ -114,10 +114,19 @@ export const create = async (
   // 윈도우를 닫으면 크기와 위치를 저장.
   win.on("close", saveState);
 
+  // 모드에 따라 윈도우의 URL을 반환.
+  const getWindowURL = () => {
+    if (env.mode === "development") {
+      const port = env.getPort();
+      return `http://localhost:${port}/${windowName}`;
+    } else {
+      const scheme = env.getScheme();
+      return `${scheme}://app/${windowName}`;
+    }
+  };
+
   // 윈도우 화면을 렌더링.
-  const scheme = env.getScheme();
-  const windowURL = `${scheme}://app/${windowName}`;
-  win.loadURL(windowURL);
+  win.loadURL(getWindowURL());
   if (env.mode !== "production") win.webContents.openDevTools();
 
   // 윈도우를 전역 변수에 저장.
