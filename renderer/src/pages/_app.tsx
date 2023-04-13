@@ -1,6 +1,6 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import type { Versions } from "@/types/window/Versions";
+import type { Versions } from "@t/Versions";
 
 declare global {
   interface Window {

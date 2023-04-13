@@ -1,5 +1,5 @@
 import { contextBridge } from "electron";
-import type { Versions } from "@/types/window/Versions";
+import type { Versions } from "@t/Versions";
 
 const versions: Versions = {
   node: () => process.versions.node,
