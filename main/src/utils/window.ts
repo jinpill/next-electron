@@ -49,13 +49,13 @@ export const create = async (
     windowState: WindowState,
     bounds: Display["bounds"],
   ) => {
-    if (typeof windowState.x !== "number") return false;
-    if (typeof windowState.y !== "number") return false;
-    if (windowState.x < bounds.x) return false;
-    if (windowState.y < bounds.y) return false;
-    if (windowState.x + windowState.width > bounds.x + bounds.width)
+    if (typeof windowState.x !== "number" || typeof windowState.y !== "number")
       return false;
-    if (windowState.y + windowState.height > bounds.y + bounds.height)
+    if (windowState.x < bounds.x || windowState.y < bounds.y) return false;
+    if (
+      windowState.x + windowState.width > bounds.x + bounds.width ||
+      windowState.y + windowState.height > bounds.y + bounds.height
+    )
       return false;
     return true;
   };
