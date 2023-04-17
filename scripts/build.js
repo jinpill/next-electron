@@ -19,10 +19,8 @@ const getTargets = () => {
   const { Platform } = builder;
   const keys = Object.keys(Platform);
 
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
+  for (const key of keys) {
     const platform = Platform[key].nodeName;
-
     if (process.platform !== platform) continue;
     return Platform[key].createTarget();
   }
