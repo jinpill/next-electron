@@ -48,17 +48,15 @@ export const create = async (
   const windowWithinBounds = (
     windowState: WindowState,
     bounds: Display["bounds"],
-  ) => {
-    if (typeof windowState.x !== "number" || typeof windowState.y !== "number")
-      return false;
-    if (windowState.x < bounds.x || windowState.y < bounds.y) return false;
-    if (
+  ) =>
+    !(
+      typeof windowState.x !== "number" ||
+      typeof windowState.y !== "number" ||
+      windowState.x < bounds.x ||
+      windowState.y < bounds.y ||
       windowState.x + windowState.width > bounds.x + bounds.width ||
       windowState.y + windowState.height > bounds.y + bounds.height
-    )
-      return false;
-    return true;
-  };
+    );
 
   // 윈도우의 기본 상태를 얻음.
   const getDefaultState = () => {
