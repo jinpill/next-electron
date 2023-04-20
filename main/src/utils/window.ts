@@ -100,8 +100,8 @@ export const create = async (
 
   // 윈도우를 생성.
   const win = new BrowserWindow({
-    ...state,
     ...options,
+    ...state,
     webPreferences: {
       nodeIntegration: true,
       preload: getPreloadPath(),
