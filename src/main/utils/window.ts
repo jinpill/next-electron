@@ -94,7 +94,7 @@ export const create = async (
   const getPreloadPath = () => {
     if (!preload) return;
 
-    const preloadPath = `../../../renderer/build/preloads/${windowName}.js`;
+    const preloadPath = `../../dist/preloads/${windowName}.bundle.js`;
     return path.join(__dirname, preloadPath);
   };
 

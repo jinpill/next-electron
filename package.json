@@ -16,15 +16,11 @@
     "dev:main": "pnpm compile:preloads && pnpm compile:main && pnpm start",
     "test": "pnpm compile:render && pnpm compile:main && cross-env TEST=true pnpm start",
     "compile:render": "next build renderer && next export renderer",
-    "compile:preloads": "pnpm clean:preloads && pnpm compile:preloads-tsc && pnpm compile:preloads-alias",
-    "compile:preloads-tsc": "tsc --project renderer/tsconfig.preloads.json --outDir renderer/build/preloads",
-    "compile:preloads-alias": "tsc-alias --project renderer/tsconfig.preloads.json --outDir renderer/build/preloads",
+    "compile:preloads": "rm -rf dist/preloads && webpack --config webpack/preloads.config.js",
     "compile:main": "rm -rf dist/main && webpack --config webpack/main.config.js",
     "build": "pnpm clean:build && pnpm compile:render && pnpm compile:main && pnpm build:script",
     "build:script": "node scripts/build.js",
-    "clean:main": "rm -rf main/build",
-    "clean:preloads": "rm -rf renderer/build/preloads",
-    "clean:build": "rm -rf dist",
+    "clean:build": "rm -rf build",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {

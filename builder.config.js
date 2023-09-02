@@ -4,8 +4,12 @@
 module.exports = {
   appId: "my.electron.app",
   productName: "My App",
+  directories: {
+    buildResources: "buildSrc",
+    output: "build",
+  },
   files: [
-    "main/build/**/*",
+    "dist/**/*",
     "renderer/build/**/*",
     "renderer/out/**/*",
     "package.json",
