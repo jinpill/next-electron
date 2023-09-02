@@ -10,5 +10,5 @@
     }
   },
   "exclude": ["build/**/*"],
-  "extends": "../tsconfig.json"
+  "extends": "../../tsconfig.json"
 }
