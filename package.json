@@ -8,7 +8,7 @@
   "homepage": "https://jinpill.github.io/",
   "version": "0.1.0",
   "private": true,
-  "main": "main/build/index.js",
+  "main": "dist/main/index.bundle.js",
   "packageManager": "pnpm@8.7.1",
   "scripts": {
     "start": "electron .",
@@ -19,9 +19,7 @@
     "compile:preloads": "pnpm clean:preloads && pnpm compile:preloads-tsc && pnpm compile:preloads-alias",
     "compile:preloads-tsc": "tsc --project renderer/tsconfig.preloads.json --outDir renderer/build/preloads",
     "compile:preloads-alias": "tsc-alias --project renderer/tsconfig.preloads.json --outDir renderer/build/preloads",
-    "compile:main": "pnpm clean:main && pnpm compile:main-tsc && pnpm compile:main-alias",
-    "compile:main-tsc": "tsc --project main/tsconfig.json --outDir main/build",
-    "compile:main-alias": "tsc-alias --project main/tsconfig.json --outDir main/build",
+    "compile:main": "rm -rf dist/main && webpack --config webpack/main.config.js",
     "build": "pnpm clean:build && pnpm compile:render && pnpm compile:main && pnpm build:script",
     "build:script": "node scripts/build.js",
     "clean:main": "rm -rf main/build",
@@ -37,8 +35,8 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "cross-env": "^7.0.3",
-    "electron": "^24.0.0",
-    "electron-builder": "^23.6.0",
+    "electron": "^26.1.0",
+    "electron-builder": "^24.6.3",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "eslint-config-prettier": "^8.8.0",
@@ -47,13 +45,15 @@
     "prettier": "^2.8.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "ts-loader": "^9.4.4",
     "tsc-alias": "^1.8.5",
     "typescript": "5.0.3"
   },
   "dependencies": {
     "cli-color": "^2.0.3",
-    "electron-devtools-installer": "^3.2.0",
     "electron-store": "^8.1.0",
-    "next-electron-server": "^1.0.0"
+    "next-electron-server": "^1.0.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
