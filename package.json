@@ -6,7 +6,7 @@
     "email": "hello@jinpill.dev"
   },
   "homepage": "https://jinpill.github.io/",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "dist/main/index.bundle.js",
   "packageManager": "pnpm@8.7.1",
