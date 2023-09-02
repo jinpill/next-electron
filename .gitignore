@@ -6,16 +6,15 @@
 .pnp.js
 
 # testing
-/renderer/coverage
+/src/renderer/coverage
 
 # next.js
-/renderer/.next/
-/renderer/out/
+/src/renderer/.next/
+/src/renderer/out/
 
 # production
-/renderer/build
-/main/build
 /dist
+/build
 
 # misc
 .DS_Store

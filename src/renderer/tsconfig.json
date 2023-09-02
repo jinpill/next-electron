@@ -11,7 +11,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@t/*": ["../../types/*"]
@@ -19,5 +19,5 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["build/**/*"],
-  "extends": "../tsconfig.json"
+  "extends": "../../tsconfig.json"
 }
