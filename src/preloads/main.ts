@@ -1,1 +1,1 @@
-import "@/utils/versions";
+import "@/utils/env";

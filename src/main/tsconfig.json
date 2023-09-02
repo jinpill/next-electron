@@ -5,8 +5,8 @@
     "sourceMap": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@t/*": ["../../types/*"]
+      "@/common/*": ["../renderer/common/*"],
+      "@/*": ["./*"]
     }
   },
   "extends": "../../tsconfig.json"

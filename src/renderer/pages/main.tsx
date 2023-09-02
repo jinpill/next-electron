@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
+import * as ENV from "@/common/ENV";
 
 const Main = () => {
-  const [versions, setVersions] = useState<typeof window.versions>();
+  const [versions, setVersions] = useState<ENV.Versions>();
 
   useEffect(() => {
-    setVersions(window.versions);
+    if (!window.env) return;
+    setVersions(window.env.versions);
   }, []);
 
   return (
@@ -18,9 +20,10 @@ const Main = () => {
       <main>
         <h1>Main Window</h1>
         <h2>Versions</h2>
-        <p>node.js: {versions?.node()}</p>
-        <p>chrome: {versions?.chrome()}</p>
-        <p>electron: {versions?.electron()}</p>
+        <p>app: {versions?.app}</p>
+        <p>node.js: {versions?.node}</p>
+        <p>chrome: {versions?.chrome}</p>
+        <p>electron: {versions?.electron}</p>
       </main>
     </>
   );
