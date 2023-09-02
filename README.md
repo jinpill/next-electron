@@ -8,7 +8,7 @@
 
 ```bash
 corepack enable
-corepack prepare pnpm@8.2.0 --activate
+corepack prepare pnpm@8.7.1 --activate
 pnpm run ci # pnpm ci ❌
 ```
 
@@ -24,20 +24,16 @@ pnpm dev:render
 pnpm dev:main
 ```
 
-### ⚗️ Testing
-
-**빌드 테스트**를 실행합니다.
-
-```bash
-pnpm test
-```
-
 ### 📦 Build
 
 **일렉트론 앱**을 빌드합니다.
 
 ```bash
+# 프로덕션 버전으로 빌드
 pnpm build
+
+# 스테이징 버전으로 빌드
+pnpm build:staging
 ```
 
 ---
