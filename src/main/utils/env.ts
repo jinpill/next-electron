@@ -10,7 +10,7 @@ let port = 8888;
 
 export const __root = path.resolve(__dirname, "../../");
 
-export const version = app.getVersion();
+export const version = app.getVersion().split("-")[0];
 
 export const language: ENV.Language = (() => {
   const localeCountryCode = app.getLocaleCountryCode();
@@ -21,6 +21,7 @@ export const language: ENV.Language = (() => {
 export const mode: ENV.Mode = (() => {
   if (!app.isPackaged) return "development";
 
+  const version = app.getVersion();
   const isStaging = version.split("-")[1] === "staging";
   return isStaging ? "staging" : "production";
 })();
