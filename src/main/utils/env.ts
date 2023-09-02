@@ -37,7 +37,7 @@ export const initialize = (_scheme: string, _port: number) => {
 
   serve(`${_scheme}://app`, {
     port: _port,
-    outputDir: "renderer/out",
+    outputDir: "src/renderer/out",
     dev: mode === "development",
   });
 };

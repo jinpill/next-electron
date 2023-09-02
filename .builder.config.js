@@ -10,8 +10,9 @@ module.exports = {
   },
   files: [
     "dist/**/*",
-    "renderer/build/**/*",
-    "renderer/out/**/*",
+    "src/renderer/build/**/*",
+    "src/renderer/out/**/*",
+    ".staging-vars.json",
     "package.json",
   ],
   win: {

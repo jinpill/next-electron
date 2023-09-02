@@ -14,13 +14,13 @@
     "start": "electron .",
     "dev:render": "next dev src/renderer -p 8888",
     "dev:main": "pnpm compile:preloads && pnpm compile:main && pnpm start",
-    "test": "pnpm compile:render && pnpm compile:main && cross-env TEST=true pnpm start",
     "compile:render": "next build src/renderer && next export src/renderer",
     "compile:preloads": "rm -rf dist/preloads && webpack --config webpack/preloads.config.js",
     "compile:main": "rm -rf dist/main && webpack --config webpack/main.config.js",
-    "build": "pnpm clean:build && pnpm compile:render && pnpm compile:main && pnpm build:script",
+    "build": "pnpm build:clean && pnpm compile:render && pnpm compile:main && pnpm build:script",
+    "build:staging": "cross-env IS_STAGING=true pnpm build",
     "build:script": "node scripts/build.js",
-    "clean:build": "rm -rf build",
+    "build:clean": "rm -rf build",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {
