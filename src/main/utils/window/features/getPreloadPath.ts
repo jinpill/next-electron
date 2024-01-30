@@ -1,8 +1,8 @@
 import path from "path";
-import env from "@/utils/env";
-import type { WindowName } from "../types";
+import * as env from "@/utils/env";
+import type * as ENV from "@/common/ENV";
 
-const getPreloadPath = (windowName: WindowName) => {
+const getPreloadPath = (windowName: ENV.WindowName) => {
   const preloadPath = `./dist/preloads/${windowName}.bundle.js`;
   return path.resolve(env.__root, preloadPath);
 };

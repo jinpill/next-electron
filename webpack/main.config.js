@@ -1,10 +1,15 @@
 const path = require("path");
 const env = require("./utils/env");
 
+const isDev = process.env.IS_DEV;
+const mode = isDev ? "development" : "production";
+const stats = isDev ? "minimal" : "normal";
+
 module.exports = {
   target: "electron-main",
   entry: path.resolve(env.__src, "./main/index.ts"),
-  mode: "development",
+  mode: mode,
+  stats: stats,
   module: {
     rules: [
       {
@@ -25,7 +30,5 @@ module.exports = {
     filename: "index.bundle.js",
     path: path.resolve(env.__root, "./dist/main"),
   },
-  externals: {
-    "@metamorp/engine": "commonjs @metamorp/engine",
-  },
+  externals: {},
 };

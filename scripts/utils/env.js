@@ -1,11 +1,20 @@
 const path = require("path");
 
 const __root = path.resolve(__dirname, "../../");
-const isStaging = process.env.IS_STAGING === "true";
+
+const stage = (() => {
+  const jsonPath = path.resolve(__root, "./package.json");
+  const version = require(jsonPath).version;
+  const postfix = version.split("-")[1] ?? "";
+
+  if (postfix.includes("alpha")) return "alpha";
+  if (postfix.includes("beta")) return "beta";
+  return "stable";
+})();
 
 const env = {
   __root,
-  isStaging,
+  stage,
 };
 
 module.exports = env;

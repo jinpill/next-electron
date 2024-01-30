@@ -20,15 +20,8 @@ const getLogger = (symbol: string, color: Color, logger: Logger) => {
   };
 };
 
-const log = getLogger("📋", "white", "log");
-const info = getLogger("💡", "green", "log");
-const warn = getLogger("🚸", "yellow", "warn");
-const error = getLogger("🚨", "red", "error");
-
-export default {
-  get: getLogger,
-  log,
-  info,
-  warn,
-  error,
-};
+export const log = getLogger("📋", "white", "log");
+export const info = getLogger("💡", "blue", "log");
+export const success = getLogger("✅", "green", "log");
+export const warn = getLogger("🚸", "yellow", "warn");
+export const error = getLogger("🚨", "red", "error");

@@ -3,10 +3,10 @@ const path = require("path");
 const childProcess = require("child_process");
 
 const env = require("./env");
-const jsonPath = path.resolve(env.__root, "./.staging-vars.json");
+const jsonPath = path.resolve(env.__root, "./.alpha-vars.json");
 
 const create = () => {
-  if (!env.isStaging) return;
+  if (env.stage !== "alpha") return;
 
   const branch = childProcess.execSync("git rev-parse --abbrev-ref HEAD");
   const commit = childProcess.execSync("git rev-parse HEAD");
@@ -22,7 +22,7 @@ const create = () => {
 };
 
 const remove = () => {
-  if (!env.isStaging) return;
+  if (env.stage !== "alpha") return;
   fs.rmSync(jsonPath);
 };
 

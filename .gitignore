@@ -9,13 +9,13 @@
 /src/renderer/coverage
 
 # next.js
-/src/renderer/.next/
-/src/renderer/out/
+/src/renderer/.next
+/src/renderer/out
 
 # production
-/dist
+/renderer/build
 /build
-.staging-vars.json
+/dist
 
 # misc
 .DS_Store
@@ -29,10 +29,11 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
-# vercel
-.vercel
+.alpha-vars.json
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# notes
+TODO.md

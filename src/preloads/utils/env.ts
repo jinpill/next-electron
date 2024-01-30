@@ -1,5 +1,5 @@
-import { ipcRenderer, contextBridge } from "electron";
-import ENV from "@/common/ENV";
+import { ipcRenderer } from "electron";
+import type { ContextBridge } from "@/common/ENV";
 
-const env: ENV = ipcRenderer.sendSync("bind:env");
-contextBridge.exposeInMainWorld("env", env);
+const env: ContextBridge = ipcRenderer.sendSync("get:env");
+export default env;

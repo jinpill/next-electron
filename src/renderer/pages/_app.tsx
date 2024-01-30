@@ -1,10 +1,10 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import ENV from "@/common/ENV";
+import type * as ENV from "@/common/ENV";
 
 declare global {
   interface Window {
-    env?: ENV;
+    env?: ENV.ContextBridge;
   }
 }
 

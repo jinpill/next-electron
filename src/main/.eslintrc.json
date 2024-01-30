@@ -15,6 +15,5 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["build"]
+  "plugins": ["@typescript-eslint"]
 }

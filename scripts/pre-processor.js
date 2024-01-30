@@ -1,14 +1,14 @@
 "use strict";
 
 const packageJson = require("./utils/packageJson");
-const stagingVariables = require("./utils/stagingVariables");
+const alphaVariables = require("./utils/alphaVariables");
 
 /**
  * @type {import('./BuildConfig').Processor}
  */
 const preProcessor = () => {
   packageJson.set();
-  stagingVariables.create();
+  alphaVariables.create();
 };
 
 module.exports = preProcessor;

@@ -1,5 +1,12 @@
 # next-electron
 
+## Documents
+
+자세한 내용은 아래 관련 문서를 참고해주세요.
+
+- [PNPM 커맨드 목록](./docs/pnpm.md)
+- [스크립트 목록](./docs/scripts.md)
+
 ## 📕 Usage
 
 ### 📥 Installation
@@ -8,7 +15,6 @@
 
 ```bash
 corepack enable
-corepack prepare pnpm@8.7.1 --activate
 pnpm run ci # pnpm ci ❌
 ```
 
@@ -24,23 +30,9 @@ pnpm dev:render
 pnpm dev:main
 ```
 
-### 📦 Build
+### ⚙️ Configuration
 
-**일렉트론 앱**을 빌드합니다.
-
-```bash
-# 프로덕션 버전으로 빌드
-pnpm build
-
-# 스테이징 버전으로 빌드
-pnpm build:staging
-```
-
----
-
-## ⚙️ Configuration
-
-### 💿 Format on Save (ESLint / Prettier)
+#### 💿 Format on Save (ESLint / Prettier)
 
 아래 키를 눌러 설정 화면을 엽니다.
 

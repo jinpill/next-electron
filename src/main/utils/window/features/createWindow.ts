@@ -1,12 +1,15 @@
-import { BrowserWindow } from "electron";
-import env from "@/utils/env";
+import { BrowserWindow, screen } from "electron";
+
 import getStore from "./getStore";
 import getPreloadPath from "./getPreloadPath";
 import getWindowURL from "./getWindowURL";
-import type { WindowOptions, WindowName, WindowUtils } from "../types";
+
+import * as env from "@/utils/env";
+import type * as ENV from "@/common/ENV";
+import type { WindowOptions, WindowUtils } from "../types";
 
 const createWindow = async (
-  windowName: WindowName,
+  windowName: ENV.WindowName,
   { customOptions, ...options }: WindowOptions,
   windowUtils: WindowUtils,
 ) => {
@@ -22,14 +25,56 @@ const createWindow = async (
   const state = store.get();
   const preloadPath = getPreloadPath(windowName);
 
+  const bounds = {
+    width: state.width ?? options.width,
+    height: state.height ?? options.height,
+    x: state.x ?? options.x,
+    y: state.y ?? options.y,
+  };
+
+  // resizable 옵션이 false인 경우, width와 height를 고정.
+  if (options.resizable === false) {
+    bounds.width = options.width ?? state.width;
+    bounds.height = options.height ?? state.height;
+  }
+
+  // isCenter 옵션이 true인 경우, 윈도우를 화면 중앙에 배치.
+  if (
+    customOptions?.isCenter &&
+    typeof bounds.x === "number" &&
+    typeof bounds.y === "number"
+  ) {
+    const displays = screen.getAllDisplays();
+    const display = displays.find((display) => {
+      const { workArea } = display;
+
+      if (workArea.x > bounds.x!) return false;
+      if (workArea.y > bounds.y!) return false;
+      if (workArea.x + workArea.width < bounds.x!) return false;
+      if (workArea.y + workArea.height < bounds.y!) return false;
+
+      return true;
+    });
+
+    if (display) {
+      const { workArea } = display;
+      bounds.x = workArea.x + (workArea.width - bounds.width) / 2;
+      bounds.y = workArea.y + (workArea.height - bounds.height) / 2;
+      bounds.x = Math.round(bounds.x);
+      bounds.y = Math.round(bounds.y);
+    }
+  }
+
   // customOptions.parent 옵션이 있는 경우, 부모를 설정.
   const parentName = customOptions?.parent;
-  const parent = (parentName && windowUtils.get(parentName)) ?? null;
+  const parent = (parentName && (await windowUtils.get(parentName))) ?? null;
 
   // BrowserWindow 인스턴스를 생성.
-  const win = new BrowserWindow({
+  const window = new BrowserWindow({
     ...options,
     ...state,
+    ...bounds,
+
     parent: parent || undefined,
     webPreferences: {
       nodeIntegration: true,
@@ -37,22 +82,30 @@ const createWindow = async (
       ...options.webPreferences,
     },
   });
-  win.accessibleTitle = windowName;
+  window.accessibleTitle = windowName;
 
   // 윈도우를 이동 또는 크기를 조절할 때, 스테이트 업데이트를 예약.
-  win.on("moved", store.getReservation(win, 1000));
-  win.on("resized", store.getReservation(win, 1000));
+  window.on("moved", store.getReservation(window, 1000));
+  window.on("resized", store.getReservation(window, 1000));
 
-  // 윈도우 화면을 렌더링.
-  const windowURL = getWindowURL(windowName);
-  await win.loadURL(windowURL);
+  const loadWindowURL = async () => {
+    // 윈도우 화면을 렌더링.
+    const windowURL = getWindowURL(windowName);
+    await window.loadURL(windowURL, {});
 
-  // isPreventDevTools 옵션을 설정하지 않은 경우, 개발자 도구를 자동 활성화.
-  if (env.mode === "development" && !customOptions?.isPreventDevTools) {
-    win.webContents.openDevTools();
-  }
+    // isPreventDevTools 옵션을 설정하지 않은 경우, 개발자 도구를 자동 활성화.
+    if (
+      (env.mode === "development" || env.stage === "alpha") &&
+      !customOptions?.isPreventDevTools
+    ) {
+      window.webContents.openDevTools();
+    }
+  };
 
-  return win;
+  return {
+    window,
+    loadWindowURL,
+  };
 };
 
 export default createWindow;

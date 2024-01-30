@@ -2,15 +2,14 @@ import { app } from "electron";
 import serve from "next-electron-server";
 import path from "path";
 import fs from "fs";
-import * as ENV from "@/common/ENV";
+
+import type * as ENV from "@/common/ENV";
 
 let initialized = false;
 let scheme = "";
 let port = 8888;
 
 export const __root = path.resolve(__dirname, "../../");
-
-export const version = app.getVersion().split("-")[0];
 
 export const language: ENV.Language = (() => {
   const localeCountryCode = app.getLocaleCountryCode();
@@ -20,25 +19,33 @@ export const language: ENV.Language = (() => {
 
 export const mode: ENV.Mode = (() => {
   if (!app.isPackaged) return "development";
-
-  const version = app.getVersion();
-  const isStaging = version.split("-")[1] === "staging";
-  return isStaging ? "staging" : "production";
+  else return "packaged";
 })();
 
-export const stagingVars: ENV.StagingVars | undefined = (() => {
-  const jsonPath = path.resolve(__root, ".staging-vars.json");
+export const stage: ENV.Stage = (() => {
+  const version = app.getVersion();
+  const postfix = version.split("-")[1] ?? "";
+
+  if (postfix.includes("alpha")) return "alpha";
+  if (postfix.includes("beta")) return "beta";
+  return "stable";
+})();
+
+export const isProduction = mode === "packaged" && stage !== "alpha";
+export const isDevelopment = !isProduction;
+
+export const alphaVars: ENV.AlphaVars | undefined = (() => {
+  const jsonPath = path.resolve(__root, ".alpha-vars.json");
   const isExists = fs.existsSync(jsonPath);
   if (!isExists) return;
 
   const contents = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-  return contents as ENV.StagingVars;
+  return contents as ENV.AlphaVars;
 })();
 
 export const os: ENV.OS = (() => {
-  const platform = process.platform;
-  if (platform === "darwin") return "mac";
-  if (platform === "win32") return "windows";
+  if (process.platform === "darwin") return "mac";
+  if (process.platform === "win32") return "windows";
   return "unknown";
 })();
 
@@ -51,27 +58,24 @@ export const initialize = (_scheme: string, _port: number) => {
   scheme = _scheme;
   port = _port;
 
-  if (mode !== "production") {
-    const userDataPath = `${app.getPath("userData")} (${mode})`;
+  if (stage === "alpha") {
+    // 실행 모드에 따라 userData 폴더의 경로를 변경하여 파일을 구분.
+    const userDataPath = `${app.getPath("userData")} (${stage})`;
     app.setPath("userData", userDataPath);
-    scheme += `-${mode}`;
+
+    // 스키마 뒤에 실행 모드를 추가하여 요청 헤더의 오리진을 설정.
+    scheme += `-${stage}`;
   }
 
-  serve(`${scheme}://app`, {
-    port: _port,
-    outputDir: "src/renderer/out",
-    dev: mode === "development",
-  });
-};
+  // 패키지 앱인 경우, 렌더러 프로세스 서버를 실행.
+  if (mode === "packaged") {
+    serve(`${scheme}://app`, {
+      port: _port,
+      outputDir: "src/renderer/out",
+      dev: false,
+    });
+  }
 
-export default {
-  __root,
-  version,
-  language,
-  mode,
-  stagingVars,
-  os,
-  initialize,
-  getScheme,
-  getPort,
+  // 메모리 할당량을 4GB로 설정.
+  app.commandLine.appendSwitch("js-flags", "--max-old-space-size=4096");
 };

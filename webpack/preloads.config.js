@@ -2,6 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const env = require("./utils/env");
 
+const isDev = process.env.IS_DEV;
+const mode = isDev ? "development" : "production";
+const stats = isDev ? "minimal" : "normal";
+
 const entries = fs
   .readdirSync(path.resolve(env.__src, "./preloads"))
   .filter((filename) => filename.split(".").pop() === "ts")
@@ -15,7 +19,8 @@ const entries = fs
 module.exports = {
   target: "electron-preload",
   entry: entries,
-  mode: "development",
+  mode: mode,
+  stats: stats,
   module: {
     rules: [
       {

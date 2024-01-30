@@ -13,11 +13,10 @@ const update = (callback) => {
   fs.writeFileSync(jsonPath, contents, "utf8");
 };
 
-/** staging 버전 빌드인 경우, version 뒤에 -staging을 붙입니다. */
 const set = () => {
   update((json) => {
-    json.version = json.version.split("-")[0];
-    if (env.isStaging) json.version += "-staging";
+    if (env.stage !== "alpha") return json;
+    json.name = `${json.name}-alpha`;
     return json;
   });
 };
@@ -25,8 +24,8 @@ const set = () => {
 /** version 뒤의 -staging을 없앱니다. */
 const reset = () => {
   update((json) => {
-    if (!env.isStaging) return;
-    json.version = json.version.split("-")[0];
+    if (env.stage !== "alpha") return json;
+    json.name = json.name.replace("-alpha", "");
     return json;
   });
 };

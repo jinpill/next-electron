@@ -1,17 +1,18 @@
 import { app } from "electron";
 
-import env from "@/utils/env";
-import window from "@/utils/window";
-import logger from "@/utils/logger";
-import events from "@/events";
+import * as env from "@/utils/env";
+import * as window from "@/utils/window";
+import * as logger from "@/utils/logger";
+import * as events from "@/events";
 
 const bootstrap = async () => {
+  logger.log("Bootstrap");
   await events.register();
   await app.whenReady();
-  logger.info("My app is", "ready!");
 
+  logger.info("My app is ready!");
   await window.create("main");
 };
 
-env.initialize("myapp", 8888);
+env.initialize("my-app", 8888);
 bootstrap();

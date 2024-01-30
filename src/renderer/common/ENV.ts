@@ -1,27 +1,33 @@
+export type WindowName = "main";
+
 export type Language = "en" | "ko";
 
-export type Mode = "production" | "staging" | "development";
+export type OS = "windows" | "mac" | "unknown";
 
-export type StagingVars = {
+export type Mode = "packaged" | "development";
+
+export type Stage = "alpha" | "beta" | "stable";
+
+export type AlphaVars = {
   branch: string;
   commit: string;
 };
 
-export type OS = "mac" | "windows" | "unknown";
-
-export type Versions = {
+export type Version = {
   app: string;
   node: string;
   electron: string;
   chrome: string;
 };
 
-type ENV = {
+export type ContextBridge = {
+  window: WindowName | "unknown";
   language: Language;
-  mode: Mode;
   os: OS;
-  stagingVars?: StagingVars;
-  versions: Versions;
+  mode: Mode;
+  stage: Stage;
+  version: Version;
+  alphaVars?: AlphaVars;
+  isProduction: boolean;
+  isDevelopment: boolean;
 };
-
-export default ENV;
