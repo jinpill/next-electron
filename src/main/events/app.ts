@@ -1,9 +1,14 @@
 import { app, ipcMain, BrowserWindow } from "electron";
+import * as project from "@/utils/project";
 import * as env from "@/utils/env";
 import * as window from "@/utils/window";
 import type * as ENV from "@/common/ENV";
 
 export const register = async () => {
+  ipcMain.on("get:app-config", (event) => {
+    event.returnValue = project.config;
+  });
+
   ipcMain.on("get:env", (event) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     const windowName = window.getName(win);

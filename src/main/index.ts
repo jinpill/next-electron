@@ -1,8 +1,10 @@
 import { app } from "electron";
 
+import * as project from "@/utils/project";
 import * as env from "@/utils/env";
 import * as window from "@/utils/window";
 import * as logger from "@/utils/logger";
+
 import * as events from "@/events";
 
 const bootstrap = async () => {
@@ -10,9 +12,9 @@ const bootstrap = async () => {
   await events.register();
   await app.whenReady();
 
-  logger.info("My app is ready!");
+  logger.info(`${project.config.productName} is ready!`);
   await window.create("main");
 };
 
-env.initialize("my-app", 8888);
+env.initialize();
 bootstrap();

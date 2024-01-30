@@ -3,13 +3,12 @@ import serve from "next-electron-server";
 import path from "path";
 import fs from "fs";
 
+import * as project from "@/utils/project";
 import type * as ENV from "@/common/ENV";
 
 let initialized = false;
 let scheme = "";
 let port = 8888;
-
-export const __root = path.resolve(__dirname, "../../");
 
 export const language: ENV.Language = (() => {
   const localeCountryCode = app.getLocaleCountryCode();
@@ -35,7 +34,7 @@ export const isProduction = mode === "packaged" && stage !== "alpha";
 export const isDevelopment = !isProduction;
 
 export const alphaVars: ENV.AlphaVars | undefined = (() => {
-  const jsonPath = path.resolve(__root, ".alpha-vars.json");
+  const jsonPath = path.resolve(project.__root, ".alpha-vars.json");
   const isExists = fs.existsSync(jsonPath);
   if (!isExists) return;
 
@@ -52,11 +51,11 @@ export const os: ENV.OS = (() => {
 export const getScheme = () => scheme;
 export const getPort = () => port;
 
-export const initialize = (_scheme: string, _port: number) => {
+export const initialize = () => {
   if (initialized) return;
   initialized = true;
-  scheme = _scheme;
-  port = _port;
+  scheme = project.config.scheme;
+  port = project.config.port;
 
   if (stage === "alpha") {
     // 실행 모드에 따라 userData 폴더의 경로를 변경하여 파일을 구분.
@@ -70,7 +69,7 @@ export const initialize = (_scheme: string, _port: number) => {
   // 패키지 앱인 경우, 렌더러 프로세스 서버를 실행.
   if (mode === "packaged") {
     serve(`${scheme}://app`, {
-      port: _port,
+      port: port,
       outputDir: "src/renderer/out",
       dev: false,
     });

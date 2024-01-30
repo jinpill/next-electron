@@ -30,6 +30,7 @@ module.exports = async (env) => {
       "src/renderer/build/**/*",
       "src/renderer/out/**/*",
       ".alpha-vars.json",
+      ".app.config.json",
       "package.json",
     ],
     win: {
