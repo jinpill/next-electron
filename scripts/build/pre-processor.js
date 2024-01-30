@@ -1,7 +1,7 @@
 "use strict";
 
-const packageJson = require("./utils/packageJson");
-const alphaVariables = require("./utils/alphaVariables");
+const packageJson = require("../utils/packageJson");
+const alphaVariables = require("../utils/alphaVariables");
 
 /**
  * @type {import('./BuildConfig').Processor}

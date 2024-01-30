@@ -10,8 +10,8 @@ const builder = require("electron-builder");
 const clc = require("cli-color");
 const path = require("path");
 
-const env = require("./utils/env");
-const builderConfig = require("../.builder.config");
+const env = require("../utils/env");
+const builderConfig = require("../../.builder.config");
 const preProcessor = require("./pre-processor");
 const postProcessor = require("./post-processor");
 

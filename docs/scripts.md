@@ -37,10 +37,11 @@
 
 일반적인 상황에서는 직접 사용하게 될 일은 없습니다.
 
-| Script           | Description                                 |
-| ---------------- | ------------------------------------------- |
-| compile:render   | Next.js를 컴파일                            |
-| compile:preloads | 프리로드 소스코드를 컴파일                  |
-| compile:main     | 메인 프로세스 소스코드를 컴파일             |
-| build:clean      | 이전 빌드 결과물을 삭제                     |
-| build:script     | 빌드 스크립트(scripts/build.js) 파일을 실행 |
+| Script           | Description                                       |
+| ---------------- | ------------------------------------------------- |
+| compile:render   | Next.js를 컴파일                                  |
+| compile:preloads | 프리로드 소스코드를 컴파일                        |
+| compile:main     | 메인 프로세스 소스코드를 컴파일                   |
+| build:clean      | 이전 빌드 결과물을 삭제                           |
+| build:script     | 빌드 스크립트(scripts/build/index.js) 파일을 실행 |
+| setup:app        | 셋업 스크립트(scripts/setup/index.js) 파일을 실행 |

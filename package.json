@@ -20,7 +20,8 @@
     "compile:test": "pnpm compile:render && pnpm compile:preloads && pnpm compile:main",
     "build": "pnpm build:clean && pnpm compile:render && pnpm compile:preloads && pnpm compile:main && pnpm build:script",
     "build:clean": "rm -rf build",
-    "build:script": "node scripts/build.js",
+    "build:script": "node scripts/build/index.js",
+    "setup:app": "node scripts/setup/index.js",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {

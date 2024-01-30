@@ -13,7 +13,7 @@ module.exports = async (env) => {
   }
 
   /**
-   * @type {import('electron-builder').Configuration)}}
+   * @type {import('electron-builder').Configuration)}
    */
   const config = {
     appId: appId,
@@ -40,6 +40,7 @@ module.exports = async (env) => {
     },
     mac: {
       target: "dmg",
+      identity: null,
     },
     dmg: {
       title: "${productName} ${version}",
