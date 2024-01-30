@@ -16,8 +16,8 @@ module.exports = async (env) => {
    * @type {import('electron-builder').Configuration)}}
    */
   const config = {
-    appId: "My.Electron.App",
-    productName: "My App",
+    appId: appId,
+    productName: productName,
     artifactName: "${name}-${version}-${arch}.${ext}",
     directories: {
       output: "build",
