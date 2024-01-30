@@ -40,7 +40,6 @@ module.exports = async (env) => {
     },
     mac: {
       target: "dmg",
-      identity: null,
     },
     dmg: {
       title: "${productName} ${version}",

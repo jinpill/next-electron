@@ -4,8 +4,13 @@ const path = require("path");
 const env = require("./env");
 const jsonPath = path.resolve(env.__root, "./package.json");
 
-const update = (callback) => {
+const get = () => {
   const json = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  return json;
+};
+
+const update = (callback) => {
+  const json = get();
   const nextJson = callback(json);
   if (typeof nextJson !== "object") return;
 
@@ -13,26 +18,7 @@ const update = (callback) => {
   fs.writeFileSync(jsonPath, contents, "utf8");
 };
 
-const set = () => {
-  update((json) => {
-    if (env.stage !== "alpha") return json;
-    json.name = `${json.name}-alpha`;
-    return json;
-  });
+module.exports = {
+  get,
+  update,
 };
-
-/** version 뒤의 -staging을 없앱니다. */
-const reset = () => {
-  update((json) => {
-    if (env.stage !== "alpha") return json;
-    json.name = json.name.replace("-alpha", "");
-    return json;
-  });
-};
-
-const utility = {
-  set,
-  reset,
-};
-
-module.exports = utility;
