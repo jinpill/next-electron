@@ -7,7 +7,7 @@ type WindowTitleProps = {
 };
 
 const WindowTitle = (props: WindowTitleProps) => {
-  const [productName, setProductName] = useState("My App");
+  const [productName, setProductName] = useState("");
   const [mode, setMode] = useState<ENV.Mode>("packaged");
   const [stage, setStage] = useState<ENV.Stage>("stable");
 

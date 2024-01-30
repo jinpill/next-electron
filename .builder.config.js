@@ -1,7 +1,7 @@
 // ref: https://www.electron.build/configuration/configuration
 module.exports = async (env) => {
-  let appId = "App.Electron.My";
-  let productName = "My App";
+  let appId = env.config.appId;
+  let productName = env.config.productName;
   const compression = env.isStaging ? "store" : "maximum";
 
   if (env.stage === "alpha") {

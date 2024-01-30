@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 const __root = path.resolve(__dirname, "../../");
 
@@ -12,9 +13,16 @@ const stage = (() => {
   return "stable";
 })();
 
+const config = (() => {
+  const appConfigPath = path.resolve(__root, "./.app.config.json");
+  const appConfig = JSON.parse(fs.readFileSync(appConfigPath, "utf8"));
+  return appConfig;
+})();
+
 const env = {
   __root,
   stage,
+  config,
 };
 
 module.exports = env;
