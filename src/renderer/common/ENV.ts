@@ -1,5 +1,3 @@
-export type WindowName = "main";
-
 export type Language = "en" | "ko";
 
 export type OS = "windows" | "mac" | "unknown";
@@ -21,7 +19,6 @@ export type Version = {
 };
 
 export type ContextBridge = {
-  window: WindowName | "unknown";
   language: Language;
   os: OS;
   mode: Mode;

@@ -7,13 +7,12 @@ import config, { commonConfig } from "./config";
 import createWindow from "./features/createWindow";
 
 import type { WindowUtils } from "./types";
-
-import type * as ENV from "@/common/ENV";
+import type * as Win from "@/common/Win";
 
 /**
  * 윈도우 이름을 입력하여, 미리 정의된 옵션으로 윈도우를 생성하는 함수.
  */
-export const create = async (windowName: ENV.WindowName) => {
+export const create = async (windowName: Win.Name) => {
   const result = callback.run(windowName, "will-create")(windowUtils);
   if (result === false) return null;
 
@@ -44,7 +43,7 @@ export const create = async (windowName: ENV.WindowName) => {
 /**
  * 윈도우를 닫은 뒤, BrowserWindow 인스턴스를 제거하는 함수.
  */
-export const close = async (windowName: ENV.WindowName) => {
+export const close = async (windowName: Win.Name) => {
   const win = await get(windowName);
   if (!win || win.isDestroyed()) return;
 
@@ -58,14 +57,14 @@ export const close = async (windowName: ENV.WindowName) => {
 /**
  * BrowserWindow 인스턴스를 제거하는 함수.
  */
-export const destroy = async (windowName: ENV.WindowName) => {
+export const destroy = async (windowName: Win.Name) => {
   windows.delete(windowName);
 };
 
 /**
  * 윈도우를 새로고침하는 함수.
  */
-export const refresh = async (windowName: ENV.WindowName) => {
+export const refresh = async (windowName: Win.Name) => {
   const win = await get(windowName);
   if (!win) return;
   win.reload();
@@ -74,7 +73,7 @@ export const refresh = async (windowName: ENV.WindowName) => {
 /**
  * 해당 윈도우가 준비되었음을 알리는 함수.
  */
-export const ready = async (windowName: ENV.WindowName) => {
+export const ready = async (windowName: Win.Name) => {
   const win = await get(windowName);
   if (win === null) return;
 
@@ -87,7 +86,7 @@ export const ready = async (windowName: ENV.WindowName) => {
 /**
  * 윈도우의 이름을 입력하여, BrowserWindow 인스턴스를 반환하는 함수.
  */
-export const get = async (windowName: ENV.WindowName) => {
+export const get = async (windowName: Win.Name) => {
   const win = windows.get(windowName) ?? null;
   return win;
 };
@@ -95,7 +94,7 @@ export const get = async (windowName: ENV.WindowName) => {
 /**
  * 윈도우의 이름을 입력하여, 해당 윈도우가 생성되었는지 여부를 반환하는 함수.
  */
-export const has = async (windowName: ENV.WindowName) => {
+export const has = async (windowName: Win.Name) => {
   const win = await get(windowName);
   return win !== null;
 };
@@ -112,7 +111,7 @@ export const showAll = async () => {
  */
 export const getName = <
   W extends BrowserWindow | null,
-  R extends W extends null ? null : ENV.WindowName,
+  R extends W extends null ? null : Win.Name,
 >(
   window: W,
 ): R => {

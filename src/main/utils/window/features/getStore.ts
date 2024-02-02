@@ -1,10 +1,10 @@
 import { screen, BrowserWindow, Display } from "electron";
 import Store from "electron-store";
 import type { State, SizeState, PositionState, WindowState } from "../types";
-import type * as ENV from "@/common/ENV";
+import type * as Win from "@/common/Win";
 
 interface StoreOptions {
-  windowName: ENV.WindowName;
+  windowName: Win.Name;
   groupName?: string;
   width?: number;
   height?: number;

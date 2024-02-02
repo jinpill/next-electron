@@ -1,13 +1,13 @@
 import type { BrowserWindowConstructorOptions } from "electron";
 import type { WindowOptions } from "./types";
-import type * as ENV from "@/common/ENV";
+import type * as Win from "@/common/Win";
 
 export const commonConfig: BrowserWindowConstructorOptions = {
   width: 1100,
   height: 800,
 };
 
-const config: Record<ENV.WindowName, WindowOptions> = {
+const config: Record<Win.Name, WindowOptions> = {
   main: {},
 };
 

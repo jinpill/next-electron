@@ -1,10 +1,10 @@
 import type { CallbackMaps, CallbackType } from "./types";
-import type * as ENV from "@/common/ENV";
+import type * as Win from "@/common/Win";
 
 const callbacks: CallbackMaps = {};
 
 export default {
-  run: (windowName: ENV.WindowName, type: CallbackType) => {
+  run: (windowName: Win.Name, type: CallbackType) => {
     const callback = callbacks[windowName]?.[type];
     return callback ?? (() => {});
   },

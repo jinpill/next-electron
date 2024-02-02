@@ -5,11 +5,11 @@ import getPreloadPath from "./getPreloadPath";
 import getWindowURL from "./getWindowURL";
 
 import * as env from "@/utils/env";
-import type * as ENV from "@/common/ENV";
+import type * as Win from "@/common/Win";
 import type { WindowOptions, WindowUtils } from "../types";
 
 const createWindow = async (
-  windowName: ENV.WindowName,
+  windowName: Win.Name,
   { customOptions, ...options }: WindowOptions,
   windowUtils: WindowUtils,
 ) => {
