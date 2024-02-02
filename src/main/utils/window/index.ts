@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, WebContents } from "electron";
 import * as logger from "@/utils/logger";
 
 import windows from "./windows";
@@ -109,15 +109,20 @@ export const showAll = async () => {
 /**
  * 입력받은 BrowserWindow 인스턴스의 이름을 반환하는 함수.
  */
-export const getName = <
-  W extends BrowserWindow | null,
-  R extends W extends null ? null : Win.Name,
->(
-  window: W,
-): R => {
-  if (!window) return null as R;
-  const windowName = window.accessibleTitle;
-  return windowName as R;
+export const getName = (window: BrowserWindow | WebContents | null) => {
+  const getNameFromBrowserWindow = (window: BrowserWindow | null) => {
+    if (!window) return null;
+    return window.accessibleTitle as Win.Name;
+  };
+
+  if (!window) {
+    return null;
+  } else if (window instanceof BrowserWindow) {
+    return getNameFromBrowserWindow(window);
+  } else {
+    const win = BrowserWindow.fromWebContents(window);
+    return getNameFromBrowserWindow(win);
+  }
 };
 
 const windowUtils: WindowUtils = {

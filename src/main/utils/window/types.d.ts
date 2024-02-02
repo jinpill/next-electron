@@ -1,4 +1,8 @@
-import type { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
+import type {
+  BrowserWindow,
+  WebContents,
+  BrowserWindowConstructorOptions,
+} from "electron";
 import type * as Win from "@/common/Win";
 
 export interface WindowOptions extends BrowserWindowConstructorOptions {
@@ -47,10 +51,5 @@ export interface WindowUtils {
   get: (windowName: Win.Name) => Promise<BrowserWindow | null>;
   has: (windowName: Win.Name) => Promise<boolean>;
   showAll: () => Promise<void>;
-  getName: <
-    W extends BrowserWindow | null,
-    R extends W extends null ? null : Win.Name,
-  >(
-    window: W,
-  ) => R;
+  getName: (window: BrowserWindow | WebContents | null) => Win.Name | null;
 }
