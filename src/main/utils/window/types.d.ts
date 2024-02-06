@@ -21,7 +21,10 @@ export interface WindowOptions extends BrowserWindowConstructorOptions {
 export type CallbackType = "will-create" | "ready" | "will-close";
 
 export type CallbackMap = Partial<
-  Record<CallbackType, (utils: WindowUtils) => boolean | void>
+  Record<
+    CallbackType,
+    (utils: WindowUtils) => boolean | void | Promise<boolean | void>
+  >
 >;
 
 export type CallbackMaps = Partial<Record<Win.Name, CallbackMap>>;

@@ -13,15 +13,20 @@ import type * as Win from "@/common/Win";
  * 윈도우 이름을 입력하여, 미리 정의된 옵션으로 윈도우를 생성하는 함수.
  */
 export const create = async (windowName: Win.Name) => {
-  const result = callback.run(windowName, "will-create")(windowUtils);
+  const result = await callback.run(windowName, "will-create")(windowUtils);
   if (result === false) return null;
 
   // 이미 생성된 윈도우가 있는 경우, 실행하지 않음.
   const prevWin = await get(windowName);
   if (prevWin !== null) {
-    if (prevWin.isDestroyed()) await destroy(windowName);
-    else if (!prevWin.isVisible()) await close(windowName);
-    else return null;
+    if (prevWin.isDestroyed()) {
+      await destroy(windowName);
+    } else if (!prevWin.isVisible()) {
+      await close(windowName);
+    } else {
+      prevWin.focus();
+      return prevWin;
+    }
   }
 
   const windowOption = {
@@ -47,7 +52,7 @@ export const close = async (windowName: Win.Name) => {
   const win = await get(windowName);
   if (!win || win.isDestroyed()) return;
 
-  const result = callback.run(windowName, "will-close")(windowUtils);
+  const result = await callback.run(windowName, "will-close")(windowUtils);
   if (result === false) return;
 
   win.close();
@@ -78,7 +83,7 @@ export const ready = async (windowName: Win.Name) => {
   if (win === null) return;
 
   logger.success(`Window "${windowName}" is ready!`);
-  const result = callback.run(windowName, "ready")(windowUtils);
+  const result = await callback.run(windowName, "ready")(windowUtils);
   if (result === false) return;
   win.show();
 };
