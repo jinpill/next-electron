@@ -9,7 +9,7 @@ import * as events from "@/events";
 
 const bootstrap = async () => {
   logger.log("Bootstrap");
-  await events.register();
+  events.register();
   await app.whenReady();
 
   logger.info(`${project.config.productName} is ready!`);

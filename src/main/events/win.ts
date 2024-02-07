@@ -3,7 +3,7 @@ import * as env from "@/utils/env";
 import * as window from "@/utils/window";
 import type * as Win from "@/common/Win";
 
-export const register = async () => {
+export const register = () => {
   ipcMain.on("get:window-config", (event) => {
     const config: Win.Config = {
       name: "unknown",

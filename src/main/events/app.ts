@@ -3,7 +3,7 @@ import * as project from "@/utils/project";
 import * as env from "@/utils/env";
 import type * as ENV from "@/common/ENV";
 
-export const register = async () => {
+export const register = () => {
   ipcMain.on("get:app-config", (event) => {
     event.returnValue = project.config;
   });
