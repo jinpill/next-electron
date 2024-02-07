@@ -4,7 +4,7 @@ import * as window from "@/utils/window";
 import type * as Win from "@/common/Win";
 
 export const register = () => {
-  ipcMain.on("get:window-config", (event) => {
+  ipcMain.on("get:window-config", async (event) => {
     const config: Win.Config = {
       name: "unknown",
       isClosable: true,
@@ -12,7 +12,7 @@ export const register = () => {
       isMaximizable: true,
     };
 
-    const windowName = window.getName(event.sender);
+    const windowName = await window.getName(event.sender);
     if (windowName) {
       config.name = windowName;
     } else {
@@ -35,7 +35,7 @@ export const register = () => {
 
   ipcMain.on("run:control-window", async (event, action: Win.ControlAction) => {
     if (!action.target) {
-      const windowName = window.getName(event.sender);
+      const windowName = await window.getName(event.sender);
 
       if (windowName) {
         action.target = windowName;
@@ -88,8 +88,8 @@ export const register = () => {
   app.on("browser-window-created", (_, win) => {
     let name: Win.Name | null = null;
 
-    win.on("show", () => {
-      name = window.getName(win);
+    win.on("show", async () => {
+      name = await window.getName(win);
     });
 
     win.on("closed", async () => {

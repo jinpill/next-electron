@@ -54,5 +54,7 @@ export interface WindowUtils {
   get: (windowName: Win.Name) => Promise<BrowserWindow | null>;
   has: (windowName: Win.Name) => Promise<boolean>;
   showAll: () => Promise<void>;
-  getName: (window: BrowserWindow | WebContents | null) => Win.Name | null;
+  getName: (
+    window: BrowserWindow | WebContents | null,
+  ) => Promise<Win.Name | null>;
 }

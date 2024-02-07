@@ -114,7 +114,7 @@ export const showAll = async () => {
 /**
  * 입력받은 BrowserWindow 인스턴스의 이름을 반환하는 함수.
  */
-export const getName = (window: BrowserWindow | WebContents | null) => {
+export const getName = async (window: BrowserWindow | WebContents | null) => {
   const getNameFromBrowserWindow = (window: BrowserWindow | null) => {
     if (!window) return null;
     return window.accessibleTitle as Win.Name;
