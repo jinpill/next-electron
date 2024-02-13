@@ -13,7 +13,7 @@ const win: Win.ContextBridge = {
   control: async (action) => {
     await rendererProcess.send.run("control-window", action);
   },
-  addEventListener: (event, listener) => {
+  addListener: (event, listener) => {
     listeners[event] = listener;
   },
   removeAllListeners: () => {

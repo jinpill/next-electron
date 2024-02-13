@@ -28,7 +28,7 @@ export type Listener = {
 export type ContextBridge = {
   getConfig: () => Config;
   control: (action: ControlAction) => Promise<void>;
-  addEventListener: <E extends keyof Listener, L extends Listener[E]>(
+  addListener: <E extends keyof Listener, L extends Listener[E]>(
     event: E,
     listener: NonNullable<L>,
   ) => void;
