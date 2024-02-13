@@ -5,7 +5,7 @@ export const on = {
     channel: string,
     callback: (
       event: Electron.IpcRendererEvent,
-      arg: Record<string, any>,
+      arg: any,
     ) => any | Promise<any>,
   ) => {
     ipcRenderer.on(`get:${channel}`, async (event, arg) => {
@@ -18,7 +18,7 @@ export const on = {
     channel: string,
     callback: (
       event: Electron.IpcRendererEvent,
-      arg: Record<string, any>,
+      arg: any,
     ) => void | Promise<void>,
   ) => {
     ipcRenderer.on(`set:${channel}`, callback);
@@ -27,7 +27,7 @@ export const on = {
     channel: string,
     callback: (
       event: Electron.IpcRendererEvent,
-      arg: Record<string, any>,
+      arg: any,
     ) => void | Promise<void>,
   ) => {
     ipcRenderer.on(`run:${channel}`, callback);
@@ -35,14 +35,14 @@ export const on = {
 };
 
 export const send = {
-  get: <T extends unknown>(channel: string, arg: Record<string, any> = {}) => {
+  get: <T extends unknown>(channel: string, arg: any = {}) => {
     const result = ipcRenderer.sendSync(`get:${channel}`, arg);
     return result as T;
   },
-  set: async (channel: string, arg: Record<string, any>) => {
+  set: async (channel: string, arg: any) => {
     await ipcRenderer.invoke(`set:${channel}`, arg);
   },
-  run: async (channel: string, arg: Record<string, any> = {}) => {
-    await ipcRenderer.invoke(`set:${channel}`, arg);
+  run: async (channel: string, arg: any = {}) => {
+    await ipcRenderer.invoke(`run:${channel}`, arg);
   },
 };

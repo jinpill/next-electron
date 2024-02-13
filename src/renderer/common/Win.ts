@@ -5,6 +5,7 @@ export type Config = {
   isClosable: boolean;
   isMinimizable: boolean;
   isMaximizable: boolean;
+  isMaximized: boolean;
 };
 
 export type ControlAction = {
@@ -12,7 +13,15 @@ export type ControlAction = {
   target?: Name;
 };
 
+export namespace Event {
+  export namespace Set {
+    export type Maximized = {
+      isMaximized: boolean;
+    };
+  }
+}
+
 export type ContextBridge = {
-  config: Config;
-  control: (action: ControlAction) => void;
+  getConfig: () => Config;
+  control: (action: ControlAction) => Promise<void>;
 };

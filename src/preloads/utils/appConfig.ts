@@ -1,6 +1,6 @@
-import { ipcRenderer } from "electron";
+import * as rendererProcess from "@/utils/rendererProcess";
 import type * as AppConfig from "@/common/AppConfig";
 
 const appConfig: AppConfig.ContextBridge =
-  ipcRenderer.sendSync("get:app-config");
+  rendererProcess.send.get("app-config");
 export default appConfig;

@@ -1,11 +1,16 @@
-import { BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as window from "@/utils/window";
 import * as Win from "@/common/Win";
 
 export const on = {
+  app: (callback: (win: BrowserWindow) => void) => {
+    app.on("browser-window-created", (_, win) => {
+      callback(win);
+    });
+  },
   get: (
     channel: string,
-    callback: (event: Electron.IpcMainEvent, arg: any) => void | Promise<void>,
+    callback: (event: Electron.IpcMainEvent, arg: any) => any | Promise<any>,
   ) => {
     ipcMain.on(`get:${channel}`, async (event, arg) => {
       const result = await callback(event, arg);
@@ -36,7 +41,7 @@ export const send = {
   get: async <T = unknown>(
     target: BrowserWindow | Electron.WebContents | Win.Name | null,
     channel: string,
-    arg: Record<string, any> = {},
+    arg: any = {},
   ) => {
     if (!target) return;
     const { win, name } = await getTargetData(target);
@@ -49,7 +54,7 @@ export const send = {
   set: async (
     target: BrowserWindow | Electron.WebContents | Win.Name | null,
     channel: string,
-    arg: Record<string, any> = {},
+    arg: any = {},
   ) => {
     if (!target) return;
     const { win } = await getTargetData(target);
@@ -58,7 +63,7 @@ export const send = {
   run: async (
     target: BrowserWindow | Electron.WebContents | Win.Name | null,
     channel: string,
-    arg: Record<string, any> = {},
+    arg: any = {},
   ) => {
     if (!target) return;
     const { win } = await getTargetData(target);

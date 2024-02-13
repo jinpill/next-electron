@@ -1,15 +1,15 @@
-import { app, ipcMain } from "electron";
+import * as mainProcess from "@/events/utils/mainProcess";
 import * as project from "@/utils/project";
 import * as env from "@/utils/env";
 import type * as ENV from "@/common/ENV";
 
 export const register = () => {
-  ipcMain.on("get:app-config", (event) => {
-    event.returnValue = project.config;
+  mainProcess.on.get("app-config", () => {
+    return project.config;
   });
 
-  ipcMain.on("get:env", (event) => {
-    const ENV: ENV.ContextBridge = {
+  mainProcess.on.get("env", () => {
+    const environments: ENV.ContextBridge = {
       language: env.language,
       mode: env.mode,
       stage: env.stage,
@@ -17,14 +17,9 @@ export const register = () => {
       isDevelopment: env.isDevelopment,
       alphaVars: env.alphaVars,
       os: env.os,
-      version: {
-        app: app.getVersion(),
-        node: process.versions.node,
-        chrome: process.versions.chrome,
-        electron: process.versions.electron,
-      },
+      version: env.version,
     };
 
-    event.returnValue = ENV;
+    return environments;
   });
 };

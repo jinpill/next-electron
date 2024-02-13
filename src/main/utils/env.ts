@@ -21,10 +21,17 @@ export const mode: ENV.Mode = (() => {
   else return "packaged";
 })();
 
-export const stage: ENV.Stage = (() => {
-  const version = app.getVersion();
-  const postfix = version.split("-")[1] ?? "";
+export const version: ENV.Version = (() => {
+  return {
+    app: app.getVersion(),
+    node: process.versions.node,
+    chrome: process.versions.chrome,
+    electron: process.versions.electron,
+  };
+})();
 
+export const stage: ENV.Stage = (() => {
+  const postfix = version.app.split("-")[1] ?? "";
   if (postfix.includes("alpha")) return "alpha";
   if (postfix.includes("beta")) return "beta";
   return "stable";

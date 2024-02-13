@@ -1,100 +1,75 @@
-import { app, ipcMain, BrowserWindow } from "electron";
-import * as env from "@/utils/env";
+import * as mainProcess from "@/events/utils/mainProcess";
 import * as window from "@/utils/window";
 import type * as Win from "@/common/Win";
 
 export const register = () => {
-  ipcMain.on("get:window-config", async (event) => {
+  mainProcess.on.get("window-config", async (event) => {
     const config: Win.Config = {
       name: "unknown",
       isClosable: true,
       isMinimizable: true,
       isMaximizable: true,
+      isMaximized: false,
     };
 
     const windowName = await window.getName(event.sender);
-    if (windowName) {
-      config.name = windowName;
-    } else {
-      event.returnValue = config;
-      return;
-    }
+    if (!windowName) return config;
+    config.name = windowName;
 
-    const win = BrowserWindow.fromWebContents(event.sender);
-    if (!win) {
-      event.returnValue = config;
-      return;
-    }
+    const win = await window.get(windowName);
+    if (!win) return config;
 
     config.isClosable = win.closable;
     config.isMinimizable = win.minimizable;
     config.isMaximizable = win.maximizable;
+    config.isMaximized = win.isMaximized();
 
-    event.returnValue = config;
+    return config;
   });
 
-  ipcMain.on("run:control-window", async (event, action: Win.ControlAction) => {
-    if (!action.target) {
-      const windowName = await window.getName(event.sender);
-
-      if (windowName) {
+  mainProcess.on.run(
+    "control-window",
+    async (event, action: Win.ControlAction) => {
+      if (!action.target) {
+        const windowName = await window.getName(event.sender);
+        if (!windowName) return;
         action.target = windowName;
-      } else {
-        event.returnValue = false;
-        return;
       }
-    }
 
-    if (action.type !== "open" && action.type !== "close") {
       const win = await window.get(action.target);
-      if (!win) {
-        event.returnValue = false;
-        return;
-      }
-
       switch (action.type) {
         case "minimize":
-          win.minimize();
+          win?.minimize();
           break;
         case "maximize":
-          win.maximize();
+          win?.maximize();
           break;
         case "unmaximize":
-          win.unmaximize();
+          win?.unmaximize();
+          break;
+        case "open":
+          await window.create(action.target);
+          break;
+        case "close":
+          await window.close(action.target);
           break;
       }
+    },
+  );
 
-      event.returnValue = true;
-      return;
-    }
-
-    switch (action.type) {
-      case "open":
-        await window.create(action.target);
-        break;
-      case "close":
-        await window.close(action.target);
-        break;
-    }
-
-    event.returnValue = true;
-  });
-
-  app.on("window-all-closed", () => {
-    if (env.os === "mac") return;
-    app.quit();
-  });
-
-  app.on("browser-window-created", (_, win) => {
-    let name: Win.Name | null = null;
-
-    win.on("show", async () => {
-      name = await window.getName(win);
+  mainProcess.on.app((win) => {
+    win.on("maximize", async () => {
+      const data: Win.Event.Set.Maximized = {
+        isMaximized: true,
+      };
+      mainProcess.send.set(win, "window-maximized", data);
     });
 
-    win.on("closed", async () => {
-      if (!name) return;
-      await window.destroy(name);
+    win.on("unmaximize", async () => {
+      const data: Win.Event.Set.Maximized = {
+        isMaximized: false,
+      };
+      mainProcess.send.set(win, "window-maximized", data);
     });
   });
 };

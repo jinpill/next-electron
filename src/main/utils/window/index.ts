@@ -56,7 +56,6 @@ export const close = async (windowName: Win.Name) => {
   if (result === false) return;
 
   win.close();
-  win.destroy();
 };
 
 /**
