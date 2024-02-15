@@ -48,7 +48,7 @@ export const send = {
 
     return new Promise<T>((resolve) => {
       ipcMain.once(`get:${channel}__${name}-reply`, (_, arg) => resolve(arg));
-      win.webContents.send(`get:${channel}`, arg);
+      win?.webContents.send(`get:${channel}`, arg);
     });
   },
   set: async (
@@ -58,7 +58,7 @@ export const send = {
   ) => {
     if (!target) return;
     const { win } = await getTargetData(target);
-    win.webContents.send(`set:${channel}`, arg);
+    win?.webContents.send(`set:${channel}`, arg);
   },
   run: async (
     target: BrowserWindow | Electron.WebContents | Win.Name | null,
@@ -67,25 +67,25 @@ export const send = {
   ) => {
     if (!target) return;
     const { win } = await getTargetData(target);
-    win.webContents.send(`run:${channel}`, arg);
+    win?.webContents.send(`run:${channel}`, arg);
   },
 };
 
 const getTargetData = async (
   target: BrowserWindow | Electron.WebContents | Win.Name,
 ) => {
-  let name: Win.Name;
-  let win: BrowserWindow;
+  let name: Win.Name | null;
+  let win: BrowserWindow | null;
 
   if (typeof target === "string") {
     name = target;
-    win = (await window.get(target))!;
+    win = await window.get(target);
   } else if (target instanceof BrowserWindow) {
-    name = (await window.getName(target))!;
+    name = await window.getName(target);
     win = target;
   } else {
-    name = (await window.getName(target))!;
-    win = (await window.get(name))!;
+    name = await window.getName(target);
+    win = name ? await window.get(name) : null;
   }
 
   return {
