@@ -1,48 +1,50 @@
 import { ipcRenderer } from "electron";
 
 export const on = {
-  get: async (
+  get: async <T extends unknown>(
     channel: string,
-    callback: (
-      event: Electron.IpcRendererEvent,
-      arg: any,
-    ) => any | Promise<any>,
+    callback: (event: Electron.IpcRendererEvent, arg: any) => T,
   ) => {
-    ipcRenderer.on(`get:${channel}`, async (event, arg) => {
-      const name = send.get<string>("window-config");
-      const result = await callback(event, arg);
-      ipcRenderer.send(`get:${channel}__${name}-reply`, result);
-    });
+    addListener<T>("get", channel, callback);
   },
-  set: async (
+  set: async <T extends unknown>(
     channel: string,
-    callback: (
-      event: Electron.IpcRendererEvent,
-      arg: any,
-    ) => void | Promise<void>,
+    callback: (event: Electron.IpcRendererEvent, arg: any) => T,
   ) => {
-    ipcRenderer.on(`set:${channel}`, callback);
+    addListener<T>("set", channel, callback);
   },
-  run: async (
+  run: async <T extends unknown>(
     channel: string,
-    callback: (
-      event: Electron.IpcRendererEvent,
-      arg: any,
-    ) => void | Promise<void>,
+    callback: (event: Electron.IpcRendererEvent, arg: any) => T,
   ) => {
-    ipcRenderer.on(`run:${channel}`, callback);
+    addListener<T>("run", channel, callback);
   },
 };
 
 export const send = {
-  get: <T extends unknown>(channel: string, arg: any = {}) => {
+  get: <T extends unknown>(channel: string, arg: any = {}): T => {
     const result = ipcRenderer.sendSync(`get:${channel}`, arg);
-    return result as T;
+    return result;
   },
-  set: async (channel: string, arg: any) => {
-    await ipcRenderer.invoke(`set:${channel}`, arg);
+  set: async <T extends unknown>(channel: string, arg: any): Promise<T> => {
+    return await ipcRenderer.invoke(`set:${channel}`, arg);
   },
-  run: async (channel: string, arg: any = {}) => {
-    await ipcRenderer.invoke(`run:${channel}`, arg);
+  run: async <T extends unknown>(
+    channel: string,
+    arg: any = {},
+  ): Promise<T> => {
+    return await ipcRenderer.invoke(`run:${channel}`, arg);
   },
+};
+
+const addListener = <T extends unknown>(
+  type: "get" | "set" | "run",
+  channel: string,
+  callback: (event: Electron.IpcRendererEvent, arg: any) => T,
+) => {
+  ipcRenderer.on(`${type}:${channel}`, async (event, arg) => {
+    const name = send.get<string>("window-config");
+    const result = await callback(event, arg);
+    ipcRenderer.send(`${type}:${channel}__${name}-reply`, result);
+  });
 };
