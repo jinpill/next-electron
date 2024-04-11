@@ -1,4 +1,5 @@
 import { ipcRenderer } from "electron";
+import * as Win from "@/common/Win";
 
 export const on = {
   get: async <T extends unknown>(
@@ -43,7 +44,7 @@ const addListener = <T extends unknown>(
   callback: (event: Electron.IpcRendererEvent, arg: any) => T,
 ) => {
   ipcRenderer.on(`${type}:${channel}`, async (event, arg) => {
-    const name = send.get<string>("window-config");
+    const { name } = send.get<Win.Config>("window-config");
     const result = await callback(event, arg);
     ipcRenderer.send(`${type}:${channel}__${name}-reply`, result);
   });
