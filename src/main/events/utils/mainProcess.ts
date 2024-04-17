@@ -38,22 +38,25 @@ export const send = {
     target: Target,
     channel: string,
     arg: any = {},
+    timeout?: number,
   ) => {
-    return await runSendProcess<T>("get", target, channel, arg);
+    return await runSendProcess<T>("get", target, channel, arg, timeout);
   },
   set: async <T extends unknown>(
     target: Target,
     channel: string,
     arg: any = {},
+    timeout?: number,
   ) => {
-    return await runSendProcess<T>("set", target, channel, arg);
+    return await runSendProcess<T>("set", target, channel, arg, timeout);
   },
   run: async <T extends unknown>(
     target: Target,
     channel: string,
     arg: any = {},
+    timeout?: number,
   ) => {
-    return await runSendProcess<T>("run", target, channel, arg);
+    return await runSendProcess<T>("run", target, channel, arg, timeout);
   },
 };
 
@@ -62,12 +65,22 @@ const runSendProcess = async <T extends unknown>(
   target: Target,
   channel: string,
   arg: any,
+  timeout?: number,
 ) => {
   if (!target) return;
   const [name, win] = await getTargetData(target);
+  if (!name || !(await window.has(name))) return;
 
   return new Promise<T>((resolve) => {
-    ipcMain.once(`${type}:${channel}__${name}-reply`, (_, arg) => resolve(arg));
+    const replyListenerChannel = `${type}:${channel}__${name}-reply`;
+
+    const handleReply = (_: Electron.IpcMainEvent, arg: any) => resolve(arg);
+    const removeReplyListener = () =>
+      ipcMain.removeListener(replyListenerChannel, handleReply);
+
+    // Remove listener after timeout.
+    setTimeout(removeReplyListener, timeout ?? 10000);
+    ipcMain.once(replyListenerChannel, handleReply);
     win?.webContents.send(`${type}:${channel}`, arg);
   });
 };

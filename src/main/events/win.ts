@@ -62,14 +62,14 @@ export const register = () => {
       const data: Win.Event.Set.Maximized = {
         isMaximized: true,
       };
-      mainProcess.send.set(win, "window-config", data);
+      mainProcess.send.set(win, "window-config", data, 1000);
     });
 
     win.on("unmaximize", async () => {
       const data: Win.Event.Set.Maximized = {
         isMaximized: false,
       };
-      mainProcess.send.set(win, "window-config", data);
+      mainProcess.send.set(win, "window-config", data, 1000);
     });
   });
 };
