@@ -69,7 +69,7 @@ const runSendProcess = async <T extends unknown>(
 ) => {
   if (!target) return;
   const [name, win] = await getTargetData(target);
-  if (!name || !(await window.has(name))) return;
+  if (!name || !win || win.isDestroyed() || !(await window.has(name))) return;
 
   return new Promise<T>((resolve) => {
     const replyListenerChannel = `${type}:${channel}__${name}-reply`;
@@ -81,7 +81,7 @@ const runSendProcess = async <T extends unknown>(
     // Remove listener after timeout.
     setTimeout(removeReplyListener, timeout ?? 10000);
     ipcMain.once(replyListenerChannel, handleReply);
-    win?.webContents.send(`${type}:${channel}`, arg);
+    win.webContents.send(`${type}:${channel}`, arg);
   });
 };
 
