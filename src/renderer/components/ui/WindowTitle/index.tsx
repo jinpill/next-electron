@@ -1,5 +1,5 @@
 import Head from "next/head";
-import useTitle from "@/hooks/useTitle";
+import useTitle from "./hooks/useTitle";
 
 export type WindowTitleProps = {
   name: string;
@@ -7,6 +7,7 @@ export type WindowTitleProps = {
 
 const WindowTitle = (props: WindowTitleProps) => {
   const title = useTitle(props.name);
+
   return (
     <Head>
       <title>{title}</title>

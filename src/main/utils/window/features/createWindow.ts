@@ -93,13 +93,10 @@ const createWindow = async (
     const windowURL = getWindowURL(windowName);
     await window.loadURL(windowURL, {});
 
-    // isPreventDevTools 옵션을 설정하지 않은 경우, 개발자 도구를 자동 활성화.
-    if (
-      (env.mode === "development" || env.stage === "alpha") &&
-      !customOptions?.isPreventDevTools
-    ) {
-      window.webContents.openDevTools();
-    }
+    // 조건에 따라 개발자 도구를 활성화.
+    if (env.mode !== "development") return;
+    if (customOptions?.isPreventDevTools) return;
+    window.webContents.openDevTools();
   };
 
   return {

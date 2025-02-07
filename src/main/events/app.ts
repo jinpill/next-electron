@@ -12,9 +12,6 @@ export const register = () => {
     const environments: ENV.ContextBridge = {
       language: env.language,
       mode: env.mode,
-      stage: env.stage,
-      isProduction: env.isProduction,
-      isDevelopment: env.isDevelopment,
       os: env.os,
       version: env.version,
     };

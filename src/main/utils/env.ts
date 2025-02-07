@@ -28,16 +28,6 @@ export const version: ENV.Version = (() => {
   };
 })();
 
-export const stage: ENV.Stage = (() => {
-  const postfix = version.app.split("-")[1] ?? "";
-  if (postfix.includes("alpha")) return "alpha";
-  if (postfix.includes("beta")) return "beta";
-  return "stable";
-})();
-
-export const isProduction = mode === "packaged" && stage !== "alpha";
-export const isDevelopment = !isProduction;
-
 export const os: ENV.OS = (() => {
   if (process.platform === "darwin") return "mac";
   if (process.platform === "win32") return "windows";
@@ -52,15 +42,6 @@ export const initialize = () => {
   initialized = true;
   scheme = project.config.scheme;
   port = project.config.port;
-
-  if (stage === "alpha") {
-    // 실행 모드에 따라 userData 폴더의 경로를 변경하여 파일을 구분.
-    const userDataPath = `${app.getPath("userData")} (${stage})`;
-    app.setPath("userData", userDataPath);
-
-    // 스키마 뒤에 실행 모드를 추가하여 요청 헤더의 오리진을 설정.
-    scheme += `-${stage}`;
-  }
 
   // 패키지 앱인 경우, 렌더러 프로세스 서버를 실행.
   if (mode === "packaged") {
