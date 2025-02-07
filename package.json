@@ -15,7 +15,7 @@
     "dev": "node scripts/dev/index.mjs",
     "compile": "node scripts/compile/index.mjs",
     "build": "node scripts/build/index.mjs",
-    "setup:app": "node scripts/setup/index.js",
+    "setup:app": "node scripts/setup/index.mjs",
     "ci": "pnpm install --frozen-lockfile"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import { Program } from "../utils/Program.mjs";
+import env from "../utils/env.mjs";
 
 const bootstrap = async () => {
   const program = new Program();
@@ -20,7 +21,7 @@ const bootstrap = async () => {
 
   // run the renderer process
   if (options.renderer) {
-    await Program.execute("next dev src/renderer -p 8888");
+    await Program.execute(`next dev src/renderer -p ${env.config.port}`);
   }
 
   // run the main process

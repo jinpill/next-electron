@@ -3,7 +3,6 @@ import path from "node:path";
 import os from "node:os";
 
 import env from "./env.mjs";
-import appOptions from "./appOptions.mjs";
 
 const jsonPath = path.resolve(env.__root, "./package.json");
 
