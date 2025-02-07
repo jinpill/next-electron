@@ -1,3 +1,5 @@
+export * as Event from "./Event";
+
 export type Name = "main";
 
 export type Config = {
@@ -12,14 +14,6 @@ export type ControlAction = {
   type: "open" | "minimize" | "maximize" | "unmaximize" | "close";
   target?: Name;
 };
-
-export namespace Event {
-  export namespace Set {
-    export type Maximized = {
-      isMaximized: boolean;
-    };
-  }
-}
 
 export type Listener = {
   "change-config": ((config: Config) => void) | null;

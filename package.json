@@ -13,12 +13,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "node scripts/dev.mjs",
-    "dev:render": "next dev src/renderer -p 8888",
-    "dev:main": "cross-env IS_DEV=true pnpm compile:preloads && cross-env IS_DEV=true pnpm compile:main && pnpm start",
-    "compile:render": "next build src/renderer",
-    "compile:preloads": "rm -rf dist/preloads && webpack --config webpack/preloads.config.js",
-    "compile:main": "rm -rf dist/main && webpack --config webpack/main.config.js",
-    "compile:test": "pnpm compile:render && pnpm compile:preloads && pnpm compile:main",
+    "compile": "node scripts/compile/index.mjs",
     "build": "pnpm build:clean && pnpm compile:render && pnpm compile:preloads && pnpm compile:main && pnpm build:script",
     "build:clean": "rm -rf build",
     "build:script": "node scripts/build/index.js",
@@ -50,9 +45,16 @@
   },
   "dependencies": {
     "cli-color": "^2.0.4",
-    "electron-store": "^10.0.1",
+    "electron-store": "^8.2.0",
     "next-electron-server": "^1.0.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "es5-ext",
+      "sharp"
+    ]
   }
 }

@@ -14,6 +14,16 @@ export class Program extends Command {
     this.help();
   };
 
+  static count = (...flags) => {
+    let count = 0;
+
+    flags.forEach((flag) => {
+      if (flag) count++;
+    });
+
+    return count;
+  };
+
   static execute = (command, options = {}) => {
     return new Promise((resolve, reject) => {
       const words = [];
@@ -53,6 +63,8 @@ export class Program extends Command {
         if (typeof value === "boolean") {
           if (value) return `--${kebabCasedKey}`;
           else return null;
+        } else if (Array.isArray(value)) {
+          return value.map((item) => `--${kebabCasedKey} ${item}`).join(" ");
         } else {
           return `--${kebabCasedKey} ${value}`;
         }
