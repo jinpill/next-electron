@@ -12,11 +12,9 @@
   "packageManager": "pnpm@10.2.0",
   "scripts": {
     "start": "electron .",
-    "dev": "node scripts/dev.mjs",
+    "dev": "node scripts/dev/index.mjs",
     "compile": "node scripts/compile/index.mjs",
-    "build": "pnpm build:clean && pnpm compile:render && pnpm compile:preloads && pnpm compile:main && pnpm build:script",
-    "build:clean": "rm -rf build",
-    "build:script": "node scripts/build/index.js",
+    "build": "node scripts/build/index.mjs",
     "setup:app": "node scripts/setup/index.js",
     "ci": "pnpm install --frozen-lockfile"
   },

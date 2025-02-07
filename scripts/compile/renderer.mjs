@@ -7,12 +7,13 @@ const bootstrap = async () => {
 
   if (options.type) {
     await Program.execute("tsc --noEmit -p src/renderer/tsconfig.json");
-    await Program.execute("eslint src/renderer", {
-      config: "src/renderer/eslint.config.mjs",
-    });
   } else {
     await Program.execute("next build src/renderer");
   }
+
+  await Program.execute("eslint src/renderer", {
+    config: "src/renderer/eslint.config.mjs",
+  });
 };
 
 bootstrap();

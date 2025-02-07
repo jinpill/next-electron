@@ -1,5 +1,5 @@
 // ref: https://www.electron.build/configuration/configuration
-module.exports = async (env) => {
+export default async (env) => {
   let appId = env.config.appId;
   let productName = env.config.productName;
   const compression = env.isStaging ? "store" : "maximum";
@@ -29,7 +29,6 @@ module.exports = async (env) => {
       "dist/**/*",
       "src/renderer/build/**/*",
       "src/renderer/out/**/*",
-      ".alpha-vars.json",
       ".app.config.json",
       "package.json",
     ],

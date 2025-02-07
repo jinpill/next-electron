@@ -1,19 +1,9 @@
-"use strict";
+import builder from "electron-builder";
+import clc from "cli-color";
+import path from "node:path";
 
-/*
-NOTES:
-일렉트론 프로젝트를 빌드하기 위한 스크립트를 실행하는 파일입니다.
-* 핵심 실행만 보고 싶을 경우, build 함수를 실행하는 부분을 확인해주세요.
-*/
-
-const builder = require("electron-builder");
-const clc = require("cli-color");
-const path = require("path");
-
-const env = require("../utils/env");
-const builderConfig = require("../../.builder.config");
-const preProcessor = require("./pre-processor");
-const postProcessor = require("./post-processor");
+import env from "../utils/env.mjs";
+import builderConfig from "../../.builder.config.mjs";
 
 /**
  * electron-builder를 실행하는 함수입니다.
@@ -58,8 +48,6 @@ const getConfig = async () => {
 console.log(clc.blue("🚀 Build Started!"));
 console.time(clc.yellow("⏰ Build Time:"));
 
-// 빌드 전처리 실행.
-preProcessor();
 build()
   .then(() => {
     // 일렉트론 프로젝트 빌드 성공.
@@ -73,9 +61,6 @@ build()
     console.error(err);
   })
   .finally(() => {
-    // 빌드 후처리 실행.
-    postProcessor();
-
     // 일렉트론 프로젝트 빌드 종료.
     console.timeEnd(clc.yellow("⏰ Build Time:"));
   });

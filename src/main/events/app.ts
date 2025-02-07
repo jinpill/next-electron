@@ -15,7 +15,6 @@ export const register = () => {
       stage: env.stage,
       isProduction: env.isProduction,
       isDevelopment: env.isDevelopment,
-      alphaVars: env.alphaVars,
       os: env.os,
       version: env.version,
     };

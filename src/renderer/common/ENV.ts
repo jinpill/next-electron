@@ -6,11 +6,6 @@ export type Mode = "packaged" | "development";
 
 export type Stage = "alpha" | "beta" | "stable";
 
-export type AlphaVars = {
-  branch: string;
-  commit: string;
-};
-
 export type Version = {
   app: string;
   node: string;
@@ -24,7 +19,6 @@ export type ContextBridge = {
   mode: Mode;
   stage: Stage;
   version: Version;
-  alphaVars?: AlphaVars;
   isProduction: boolean;
   isDevelopment: boolean;
 };

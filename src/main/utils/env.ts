@@ -1,7 +1,5 @@
 import { app } from "electron";
 import serve from "next-electron-server";
-import path from "path";
-import fs from "fs";
 
 import * as project from "@/utils/project";
 import type * as ENV from "@/common/ENV";
@@ -39,15 +37,6 @@ export const stage: ENV.Stage = (() => {
 
 export const isProduction = mode === "packaged" && stage !== "alpha";
 export const isDevelopment = !isProduction;
-
-export const alphaVars: ENV.AlphaVars | undefined = (() => {
-  const jsonPath = path.resolve(project.__root, ".alpha-vars.json");
-  const isExists = fs.existsSync(jsonPath);
-  if (!isExists) return;
-
-  const contents = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-  return contents as ENV.AlphaVars;
-})();
 
 export const os: ENV.OS = (() => {
   if (process.platform === "darwin") return "mac";

@@ -1,8 +1,8 @@
 "use strict";
 
 const clc = require("cli-color");
-const env = require("../utils/env");
-const packageJson = require("../utils/packageJson");
+const env = require("../utils/env.mjs");
+const packageJson = require("../utils/packageJson.mjs");
 
 packageJson.update((json) => {
   json.name = env.config.project;

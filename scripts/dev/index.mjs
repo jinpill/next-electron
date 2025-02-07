@@ -1,4 +1,4 @@
-import { Program } from "./utils/Program.mjs";
+import { Program } from "../utils/Program.mjs";
 
 const bootstrap = async () => {
   const program = new Program();
